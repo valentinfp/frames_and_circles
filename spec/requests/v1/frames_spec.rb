@@ -1,7 +1,6 @@
 require 'swagger_helper'
 
 RSpec.describe 'v1/frames', type: :request do
-
   path '/frames' do
     post('Create frame') do
       tags %w[Frames]
@@ -66,7 +65,7 @@ RSpec.describe 'v1/frames', type: :request do
       response(200, 'successful') do
         schema type: :object,
                 properties: {
-                  id: { type: :integer},
+                  id: { type: :integer },
                   width: { type: :number, format: 'float', minimum: 0, exclusive_minimum: true, default: 800 },
                   height: { type: :number, format: 'float', minimum: 0, exclusive_minimum: true, default: 600 },
                   x: { type: :number, format: 'float', default: 0 },

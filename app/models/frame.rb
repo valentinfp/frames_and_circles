@@ -71,8 +71,8 @@ class Frame < ApplicationRecord
 
   def as_json(options = {})
     super(options.merge(
-      methods: [:highest_circle, :lowest_circle, :leftmost_circle, :rightmost_circle],
-      except: [:created_at, :updated_at],
+      methods: [ :highest_circle, :lowest_circle, :leftmost_circle, :rightmost_circle ],
+      except: [ :created_at, :updated_at ],
     )).merge("total_circles" => circles.count)
   end
 

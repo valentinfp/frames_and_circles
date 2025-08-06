@@ -1,7 +1,6 @@
 require 'swagger_helper'
 
 RSpec.describe 'v1/circles', type: :request do
-
   path '/circles' do
     # You'll want to customize the parameter types...
 
@@ -21,7 +20,6 @@ RSpec.describe 'v1/circles', type: :request do
       let(:radius) { 150 }
 
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {

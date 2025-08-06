@@ -1,6 +1,6 @@
 module V1
   class FramesController < ApplicationController
-    before_action :set_frame, only: [:show, :destroy]
+    before_action :set_frame, only: [ :show, :destroy ]
 
     # GET /v1/frames/:id
     def show
@@ -31,11 +31,11 @@ module V1
     def set_frame
       @frame = Frame.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      render json: { error: 'Frame not found' }, status: :not_found
+      render json: { error: "Frame not found" }, status: :not_found
     end
 
     def frame_params
-      params.require(:frame).permit(:width, :height, :x, :y, circles_attributes: [:diameter, :x, :y])
+      params.require(:frame).permit(:width, :height, :x, :y, circles_attributes: [ :diameter, :x, :y ])
     end
   end
 end

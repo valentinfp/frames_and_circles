@@ -1,7 +1,7 @@
 module V1
   class CirclesController < ApplicationController
-    before_action :set_frame, only: [:create]
-    before_action :set_circle, only: [:update, :destroy]
+    before_action :set_frame, only: [ :create ]
+    before_action :set_circle, only: [ :update, :destroy ]
 
     # GET /frames/:frame_id/circles
     def index
@@ -53,7 +53,7 @@ module V1
     def set_frame
       @frame = Frame.find(params[:frame_id])
     rescue ActiveRecord::RecordNotFound
-      render json: { error: 'Frame not found' }, status: :not_found
+      render json: { error: "Frame not found" }, status: :not_found
     end
 
     def set_circle
@@ -61,7 +61,7 @@ module V1
       @circle = circles.find(params[:id])
       @frame ||= @circle.frame if @circle
     rescue ActiveRecord::RecordNotFound
-      render json: { error: 'Circle not found' }, status: :not_found
+      render json: { error: "Circle not found" }, status: :not_found
     end
 
     def circle_params
