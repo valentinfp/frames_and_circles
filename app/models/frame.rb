@@ -1,6 +1,8 @@
 class Frame < ApplicationRecord
   has_many :circles, dependent: :destroy
 
+  accepts_nested_attributes_for :circles, allow_destroy: true
+
   validates :width, :height, numericality: { greater_than: 0 }
   validates :x, :y, numericality: true
   validates :width, :height, presence: true
@@ -66,15 +68,6 @@ class Frame < ApplicationRecord
     circle = circles.max_by { |circle| circle.x + circle.radius }
     { x: circle.x, y: circle.y }
   end
-
-  # Faz com o que o JSON seja serializado corretamente, retornando Retorna detalhes de um quadro, incluindo:
-  # posição x
-  # posição y
-  # total de círculos
-  # posição círculo que está na posição mais alta
-  # posição círculo que está na posição mais baixa
-  # posição círculo que está na posição mais à esquerda
-  # posição círculo que está na posição mais à direita
 
   def as_json(options = {})
     super(options.merge(

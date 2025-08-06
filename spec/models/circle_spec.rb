@@ -53,4 +53,18 @@ RSpec.describe Circle, type: :model do
       end
     end
   end
+
+  describe "class methods" do
+    describe ".within_bounds" do
+      let(:frame) { Frame.create!(width: 100, height: 100, x: 50, y: 50) }
+      let!(:circle1) { Circle.create!(diameter: 5, x: 60, y: 60, frame: frame) }
+      let!(:circle2) { Circle.create!(diameter: 5, x: 80, y: 80, frame: frame) }
+
+      it "returns circles within specified bounds" do
+        result = Circle.within_bounds(65, 65, 10)
+        expect(result).to include(circle1)
+        expect(result).not_to include(circle2)
+      end
+    end
+  end
 end
