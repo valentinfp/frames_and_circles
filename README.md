@@ -1,24 +1,17 @@
-# README
+# API de Quadros e Círculos
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Como rodar o sistema com Docker Compose
 
-Things you may want to cover:
+1. Certifique-se de ter o [Docker](https://docs.docker.com/get-docker/) e o [Docker Compose](https://docs.docker.com/compose/install/) instalados em sua máquina.
+2. No diretório raiz do projeto, execute o comando:
 
-* Ruby version
+  ```bash
+  docker-compose up --build
+  ```
 
-* System dependencies
+3. Aguarde até que todos os serviços estejam em execução.
 
-* Configuration
+## Acessando a documentação da API
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Após iniciar o sistema, acesse a documentação interativa da API em:
+[http://localhost:3000/api-docs](http://localhost:3000/api-docs)
