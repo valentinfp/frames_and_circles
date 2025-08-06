@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -8,4 +9,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  scope module: :v1 do
+    resources :frames, only: [:show, :create, :destroy] do
+      resources :circles, only: [:create, :update, :destroy], shallow: true
+    end
+    resources :circles, only: [:index]
+  end
 end

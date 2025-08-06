@@ -22,6 +22,10 @@ class Circle < ApplicationRecord
     diameter / 2.0
   end
 
+  def self.within_bounds(x, y, radius)
+    where("x >= ? AND x <= ? AND y >= ? AND y <= ?", x - radius, x + radius, y - radius, y + radius)
+  end
+
   private
 
   def no_collision_with_other_circles

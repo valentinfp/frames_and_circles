@@ -36,6 +36,53 @@ class Frame < ApplicationRecord
     width_range.cover?(x_range) && height_range.cover?(y_range)
   end
 
+  # Identifica a posição (valores de x e y) do círculo mais alto
+  def highest_circle
+    return { x: nil, y: nil } if circles.empty?
+
+    circle = circles.max_by { |circle| circle.y + circle.radius }
+    { x: circle.x, y: circle.y }
+  end
+  # Identifica a posição (valores de x e y) do círculo mais baixo
+  def lowest_circle
+    return { x: nil, y: nil } if circles.empty?
+
+    circle = circles.min_by { |circle| circle.y - circle.radius }
+    { x: circle.x, y: circle.y }
+  end
+
+  # Identifica a posição (valores de x e y) do círculo mais à esquerda
+  def leftmost_circle
+    return { x: nil, y: nil } if circles.empty?
+
+    circle = circles.min_by { |circle| circle.x - circle.radius }
+    { x: circle.x, y: circle.y }
+  end
+
+  # Identifica a posição (valores de x e y) do círculo mais à direita
+  def rightmost_circle
+    return { x: nil, y: nil } if circles.empty?
+
+    circle = circles.max_by { |circle| circle.x + circle.radius }
+    { x: circle.x, y: circle.y }
+  end
+
+  # Faz com o que o JSON seja serializado corretamente, retornando Retorna detalhes de um quadro, incluindo:
+  # posição x
+  # posição y
+  # total de círculos
+  # posição círculo que está na posição mais alta
+  # posição círculo que está na posição mais baixa
+  # posição círculo que está na posição mais à esquerda
+  # posição círculo que está na posição mais à direita
+
+  def as_json(options = {})
+    super(options.merge(
+      methods: [:highest_circle, :lowest_circle, :leftmost_circle, :rightmost_circle],
+      except: [:created_at, :updated_at],
+    )).merge("total_circles" => circles.count)
+  end
+
   private
 
   def no_collision_with_other_frames
