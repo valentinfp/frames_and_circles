@@ -1,6 +1,3 @@
-# syntax=docker/dockerfile:1
-# check=error=true
-
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
 # docker build -t frames_and_circles .
 # docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name frames_and_circles frames_and_circles
@@ -20,10 +17,14 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+# ENV RAILS_ENV="production" \
+#     BUNDLE_DEPLOYMENT="1" \
+#     BUNDLE_PATH="/usr/local/bundle" \
+#     BUNDLE_WITHOUT="development"
+
+# Set development environment
+ENV RAILS_ENV="development" \
+    BUNDLE_PATH="/usr/local/bundle"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -45,15 +46,12 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-
-
-
 # Final stage for app image
 FROM base
 
 # Copy built artifacts: gems, application
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --from=build /rails /rails
+COPY --from=build /rails/. /rails/
 
 # Run and own only the runtime files as a non-root user for security
 RUN groupadd --system --gid 1000 rails && \
