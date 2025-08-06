@@ -1,0 +1,311 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/circles":
+    get:
+      summary: List circles
+      tags:
+      - - Circles
+      parameters:
+      - name: center_x
+        in: query
+        format: float
+        description: Center X coordinate for filtering circles within a radius
+        schema:
+          type: number
+      - name: center_y
+        in: query
+        format: float
+        description: Center Y coordinate for filtering circles within a radius
+        schema:
+          type: number
+      - name: radius
+        in: query
+        format: float
+        description: Radius for filtering circles within a certain distance from the
+          center point
+        schema:
+          type: number
+      - name: frame_id
+        in: query
+        description: Filter circles by frame ID
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+  "/frames/{frame_id}/circles":
+    parameters:
+    - name: frame_id
+      in: path
+      description: ID of the frame to which the circles belong
+      required: true
+      schema:
+        type: integer
+    post:
+      summary: Create circle
+      tags:
+      - - Circles
+      parameters: []
+      responses:
+        '201':
+          description: created
+        '422':
+          description: unprocessable entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                diameter:
+                  type: number
+                  format: float
+                  minimum: 0
+                  exclusive_minimum: true
+                  default: 5
+                x:
+                  type: number
+                  format: float
+                  default: 0
+                "y":
+                  type: number
+                  format: float
+                  default: 0
+              required:
+              - diameter
+              - x
+              - "y"
+  "/circles/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: ID of the circle to retrieve or modify
+      required: true
+      schema:
+        type: string
+    put:
+      summary: Update circle
+      tags:
+      - - Circles
+      parameters: []
+      responses:
+        '200':
+          description: successful
+        '422':
+          description: unprocessable entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                diameter:
+                  type: number
+                  format: float
+                  minimum: 0
+                  exclusive_minimum: true
+                  default: 5
+                x:
+                  type: number
+                  format: float
+                  default: 0
+                "y":
+                  type: number
+                  format: float
+                  default: 0
+              required:
+              - diameter
+              - x
+              - "y"
+    delete:
+      summary: Delete circle
+      tags:
+      - - Circles
+      responses:
+        '204':
+          description: no content
+        '404':
+          description: not found
+  "/frames":
+    post:
+      summary: Create frame
+      tags:
+      - - Frames
+      parameters: []
+      responses:
+        '201':
+          description: created
+        '422':
+          description: unprocessable entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                width:
+                  type: number
+                  format: float
+                  minimum: 0
+                  exclusive_minimum: true
+                  default: 800
+                height:
+                  type: number
+                  format: float
+                  minimum: 0
+                  exclusive_minimum: true
+                  default: 600
+                x:
+                  type: number
+                  format: float
+                  default: 0
+                "y":
+                  type: number
+                  format: float
+                  default: 0
+                circles_attributes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      diameter:
+                        type: number
+                        format: float
+                        minimum: 0
+                        exclusive_minimum: true
+                        default: 5
+                      x:
+                        type: number
+                        format: float
+                        default: 0
+                      "y":
+                        type: number
+                        format: float
+                        default: 0
+                    required:
+                    - diameter
+                    - x
+                    - "y"
+              required:
+              - width
+              - height
+              - x
+              - "y"
+  "/frames/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: ID of the frame to modify
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Show frame
+      tags:
+      - - Frames
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  width:
+                    type: number
+                    format: float
+                    minimum: 0
+                    exclusive_minimum: true
+                    default: 800
+                  height:
+                    type: number
+                    format: float
+                    minimum: 0
+                    exclusive_minimum: true
+                    default: 600
+                  x:
+                    type: number
+                    format: float
+                    default: 0
+                  "y":
+                    type: number
+                    format: float
+                    default: 0
+                  highest_circle:
+                    type: object
+                    properties:
+                      x:
+                        type: number
+                        format: float
+                        default: 300
+                      "y":
+                        type: number
+                        format: float
+                        default: 200
+                  lowest_circle:
+                    type: object
+                    properties:
+                      x:
+                        type: number
+                        format: float
+                        default: 100
+                      "y":
+                        type: number
+                        format: float
+                        default: -250
+                  leftmost_circle:
+                    type: object
+                    properties:
+                      x:
+                        type: number
+                        format: float
+                        default: 100
+                      "y":
+                        type: number
+                        format: float
+                        default: -250
+                  rightmost_circle:
+                    type: object
+                    properties:
+                      x:
+                        type: number
+                        format: float
+                        default: 350
+                      "y":
+                        type: number
+                        format: float
+                        default: 0
+                  total_circles:
+                    type: integer
+                    default: 3
+                required:
+                - id
+                - width
+                - height
+                - x
+                - "y"
+                - highest_circle
+                - lowest_circle
+                - leftmost_circle
+                - rightmost_circle
+                - total_circles
+        '404':
+          description: not found
+    delete:
+      summary: Delete frame
+      tags:
+      - - Frames
+      responses:
+        '204':
+          description: no content
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

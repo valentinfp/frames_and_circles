@@ -51,3 +51,7 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
 end
+
+RSpec.configure do |config|
+  config.rswag_dry_run = false
+end
